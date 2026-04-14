@@ -12,11 +12,11 @@ CONTAINER_ENGINE=${CONTAINER_ENGINE:-"podman"}
 
 JAVA_CONTAINER_OPTS=
 
-PLANETILER_ARGS= generate-custom \
---osm-path=data/sources/$(basename $PBF_NAME) \
+PLANETILER_ARGS="generate-custom \
+--osm-path=data/sources/$PBF_NAME \
 --schema=/data/layers/$SCHEMA.yml \
 --output=/data/$SCHEMA.pmtiles \
---storage=RAM --force 
+--storage=RAM --force" 
 
 
 if [ "$EXECUTION_MODE" == "docker" ]; then
