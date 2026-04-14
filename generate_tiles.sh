@@ -1,5 +1,4 @@
-#!/bin/sh
-set -x
+#!/bin/bash
 cd "$(dirname "$0")"
 
 
@@ -46,12 +45,12 @@ while [[ $# -gt 0 ]]; do
       TILES_BUCKET_PATH="${1#*=}"
       shift
       ;;
-    --container-engine=*)
-      CONTAINER_ENGINE="${1#*=}"
-      shift
-      ;;
     --execution-mode=*)
       EXECUTION_MODE="${1#*=}"
+      shift
+      ;;
+    --container-engine=*)
+      CONTAINER_ENGINE="${1#*=}"
       shift
       ;;
     -h|--help)
