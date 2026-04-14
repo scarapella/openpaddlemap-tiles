@@ -2,17 +2,93 @@
 set -x
 cd "$(dirname "$0")"
 
-# todo: MAKE THIS SUCK LESS
-# 1 - bucket + path to find pbf gs://na-ne2-brouter-segments/pbf
-# 2 - pbf name
-# 3 - schema to generate (without .yml extension)
-# 4 - destination bucket for pmtiles gs://na-ne2-openpaddlemap-tiles
-# we wrap this script so that it fails immmedatly on error, then we do the cleanup here. 
+
+
+
+usage() {
+  echo "Usage: $0" >&2
+  echo "  --java-args=JAVA_ARGS" >&2
+  echo "  --pbf-bucket-path=PBF_BUCKET_PATH" >&2 
+  echo "  --schema=SCHEMA" >&2
+  echo "  --pbf-region=PBF_REGION" >&2
+  echo "  --tiles-bucket-path=TILES_BUCKET_PATH" >&2
+  echo "  --container-engine=podman|docker" >&2
+  echo "Example: $0" >&2
+  echo "  --java-args='-Dhi=mom -Xmx60g'" >&2
+  echo "  --pbf-bucket-path=gs://na-ne2-openpaddlemap-rawdata" >&2
+  echo "  --schema=waterways" >&2
+  echo "  --pbf-region=north-america-latest" >&2
+  echo "  --tiles-bucket-path=gs://na-ne2-openpaddlemap-tiles" >&2
+  echo "  --container-engine=podman" >&2
+  exit 1
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --java-args=*)
+      JAVA_ARGS="${1#*=}"
+      shift
+      ;;
+    --pbf-bucket-path=*)
+      PBF_BUCKET_PATH="${1#*=}"
+      shift
+      ;;
+    --schema=*)
+      SCHEMA="${1#*=}"
+      shift
+      ;;
+    --pbf-region=*)
+      PBF_REGION="${1#*=}"
+      shift
+      ;;
+    --tiles-bucket-path=*)
+      TILES_BUCKET_PATH="${1#*=}"
+      shift
+      ;;
+    --container-engine=*)
+      CONTAINER_ENGINE="${1#*=}"
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --*)
+      echo "Invalid argument: $1" >&2
+      usage
+      exit 1
+      ;;
+    *)
+      echo "Invalid argument: $1" >&2
+      usage
+      exit 1
+      ;;
+  esac
+done
+set -x 
+
+
+export JAVA_ARGS=${JAVA_ARGS:-}
+
+export PBF_BUCKET_PATH=${PBF_BUCKET_PATH:-gs://na-ne2-openpaddlemap-rawdata/pbf}
+export SCHEMA=${SCHEMA:-waterways}
+
+export PBF_REGION=${PBF_REGION:-rhode-island}
+export TILES_BUCKET_PATH=${TILES_BUCKET_PATH:-gs://na-ne2-openpaddlemap-tiles/tiles-test}
+
+export PBF_NAME=$PBF_BUCKET_PATH/$(basename $PBF_REGION)-latest.osm.pbf
+
+
+CONTAINER_ENGINE=${CONTAINER_ENGINE:-podman}
+
 ./generate_tiles_internals.sh $@
 
 #cleanup
-gcloud storage cp *.out $4/logs/
-rm  data/sources/$2
-rm  data/$3.pmtiles
+if [ -f *.out ]
+then
+  gcloud storage cp *.out $TILES_BUCKET_PATH/logs/
+fi
+rm  data/sources/$PBF_NAME
+rm  data/$SCHEMA.pmtiles
 rm  -rf data/tmp
 
