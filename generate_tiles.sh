@@ -80,7 +80,8 @@ export SCHEMA=${SCHEMA:-waterways}
 export PBF_REGION=${PBF_REGION:-rhode-island}
 export TILES_BUCKET_PATH=${TILES_BUCKET_PATH:-gs://na-ne2-openpaddlemap-tiles/tiles-test}
 
-export PBF_NAME=$PBF_BUCKET_PATH/$(basename $PBF_REGION)-latest.osm.pbf
+export PBF_FILE=$PBF_REGION-latest.osm.pbf
+export PBF_NAME=$PBF_BUCKET_PATH/$PBF_FILE
 
 
 export CONTAINER_ENGINE=${CONTAINER_ENGINE:-podman}
@@ -94,7 +95,7 @@ if [ -f *.out ]
 then
   gcloud storage cp *.out $TILES_BUCKET_PATH/logs/
 fi
-rm  data/sources/$PBF_NAME
+rm  data/sources/$PBF_FILE
 rm  data/$SCHEMA.pmtiles
 rm  -rf data/tmp
 

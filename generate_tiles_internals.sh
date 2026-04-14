@@ -11,7 +11,7 @@ gcloud storage cp $PBF_NAME data/sources
 CONTAINER_ENGINE=${CONTAINER_ENGINE:-"podman"}
 
 PLANETILER_ARGS="generate-custom \
---osm-path=data/sources/$PBF_NAME \
+--osm-path=data/sources/$PBF_FILE \
 --schema=data/layers/$SCHEMA.yml \
 --output=data/$SCHEMA.pmtiles \
 --storage=RAM --force" 
