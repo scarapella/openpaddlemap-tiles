@@ -6,7 +6,7 @@ set -ex
 cd "$(dirname "$0")"
 git pull
 
-#gcloud storage cp $PBF_NAME data/sources
+gcloud storage cp $PBF_NAME data/sources
 
 CONTAINER_ENGINE=${CONTAINER_ENGINE:-"podman"}
 
