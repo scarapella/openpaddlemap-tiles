@@ -9,15 +9,15 @@ usage() {
   echo "Usage: $0" >&2
   echo "  --java-args=JAVA_ARGS" >&2
   echo "  --pbf-bucket-path=PBF_BUCKET_PATH" >&2 
-  echo "  --schema=SCHEMA" >&2
   echo "  --pbf-region=PBF_REGION" >&2
+  echo "  --schema=SCHEMA" >&2
   echo "  --tiles-bucket-path=TILES_BUCKET_PATH" >&2
   echo "  --container-engine=podman|docker" >&2
   echo "Example: $0" >&2
   echo "  --java-args='-Dhi=mom -Xmx60g'" >&2
   echo "  --pbf-bucket-path=gs://na-ne2-openpaddlemap-rawdata" >&2
-  echo "  --schema=waterways" >&2
   echo "  --pbf-region=north-america-latest" >&2
+  echo "  --schema=waterways" >&2
   echo "  --tiles-bucket-path=gs://na-ne2-openpaddlemap-tiles" >&2
   echo "  --container-engine=podman" >&2
   exit 1
@@ -33,12 +33,12 @@ while [[ $# -gt 0 ]]; do
       PBF_BUCKET_PATH="${1#*=}"
       shift
       ;;
-    --schema=*)
-      SCHEMA="${1#*=}"
-      shift
-      ;;
     --pbf-region=*)
       PBF_REGION="${1#*=}"
+      shift
+      ;;
+    --schema=*)
+      SCHEMA="${1#*=}"
       shift
       ;;
     --tiles-bucket-path=*)
