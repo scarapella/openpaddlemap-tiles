@@ -17,7 +17,7 @@ usage() {
   echo "Example: $0" >&2
   echo "  --java-args='-Dhi=mom -Xmx60g'" >&2
   echo "  --pbf-bucket-path=gs://na-ne2-openpaddlemap-rawdata" >&2
-  echo "  --pbf-region=north-america-latest" >&2
+  echo "  --pbf-region=north-america" >&2
   echo "  --schema=waterways" >&2
   echo "  --tiles-bucket-path=gs://na-ne2-openpaddlemap-tiles" >&2
   echo "  --execution-mode=java" >&2
