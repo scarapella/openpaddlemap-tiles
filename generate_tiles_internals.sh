@@ -33,4 +33,5 @@ else
   exit 1
 fi
     
+echo "Uploading data/$SCHEMA.pmtiles  to $TILES_BUCKET_PATH"
 gcloud storage cp data/$SCHEMA.pmtiles $TILES_BUCKET_PATH/
