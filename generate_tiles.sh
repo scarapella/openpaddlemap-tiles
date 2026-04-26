@@ -2,4 +2,4 @@
 
 #cd to script directory
 cd "$(dirname "$0")"
-./generate-tiles-vm.sh $@
+./generate-tiles.sh $@
